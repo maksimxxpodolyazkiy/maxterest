@@ -1,0 +1,27 @@
+<div *ngIf="isLogged" class="collection"> 
+        <div nz-row nzType="flex" nzJustify="space-between">
+            <div nz-col nzSpan="5" *ngFor="let collection of collections" (click)="showModal()">
+                <nz-modal
+                    [(nzVisible)]="isVisible"
+                    nzTitle="Choose photo to add"
+                    (nzOnCancel)="handleCancel()"
+                    (nzOnOk)="handleOk()"
+                    [nzOkLoading]="isOkLoading"
+                >
+                    <app-photos></app-photos>
+                </nz-modal>
+            </div>
+        </div>
+</div>
+
+<div *ngIf="!isLogged" class="collection"> 
+    <h2>You have no collections</h2>
+</div>
+
+<div class="add-collection">
+    <button nz-button nzType='primary'>Add collection</button>
+</div>
+
+
+
+<router-outlet></router-outlet>
