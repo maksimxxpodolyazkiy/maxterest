@@ -1,10 +1,8 @@
 import {
   Component,
   OnInit,
-  Output,
-  ViewChild,
-  ElementRef,
-  Input
+  Input,
+  CollectionChangeRecord
 } from "@angular/core";
 import { ImageService } from "../services/image.service";
 import { FormControl, FormGroup } from "@angular/forms";
@@ -19,8 +17,12 @@ export class PhotosComponent implements OnInit {
   public albums: Array<any> = [];
   headerForm: FormGroup;
   navbarForm: FormGroup;
+  @Input() collection;
 
-  constructor(private imageService: ImageService) {}
+  constructor(private imageService: ImageService) {
+
+    console.log(this.collection)
+  }
 
   ngOnInit() {
     this.navbarForm = new FormGroup({
