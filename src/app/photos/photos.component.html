@@ -1,23 +1,25 @@
 <form [formGroup]="navbarForm">
-  <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-    <input
-      name="searchText"
-      type="searchText"
-      nz-input
-      placeholder="Search photos ..."
-      #searchRequest
-    />
-  </nz-input-group>
-  <ng-template #suffixIconButton>
-    <button
-      nz-button
-      nzType="primary"
-      nzSearch
-      (click)="onSearch($event, searchRequest.value)"
-    >
-      <i nz-icon nzType="search"></i>
-    </button>
-  </ng-template>
+  <div class="selected">
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+      <input
+        name="searchText"
+        type="searchText"
+        nz-input
+        placeholder="Search photos ..."
+        #searchRequest
+      />
+    </nz-input-group>
+    <ng-template #suffixIconButton>
+      <button
+        nz-button
+        nzType="primary"
+        nzSearch
+        (click)="onSearch($event, searchRequest.value)"
+      >
+        <i nz-icon nzType="search"></i>
+      </button>
+    </ng-template>
+  </div>
 </form>
 
 <div *ngFor="let image of images" class="image-box">

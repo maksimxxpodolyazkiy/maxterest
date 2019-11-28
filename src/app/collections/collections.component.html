@@ -1,20 +1,20 @@
 <div *ngIf="onLogged" class="collection">
   <div nz-row nzType="flex" nzJustify="space-between">
+    <nz-modal
+      [(nzVisible)]="isVisible"
+      (nzOnCancel)="handleCancel()"
+      (nzOnOk)="handleOk()"
+      nzTitle="Photos"
+    >
+      <app-photos [collection]="collection"></app-photos>
+    </nz-modal>
     <div
       nz-col
       nzSpan="5"
       *ngFor="let collection of collections"
       (click)="showModal()"
     >
-      <nz-modal
-        [(nzVisible)]="isVisible"
-        nzTitle="Choose photo to add"
-        (nzOnCancel)="handleCancel()"
-        (nzOnOk)="handleOk()"
-        [nzOkLoading]="isOkLoading"
-      >
-        <app-photos [collection]="collection"></app-photos>
-      </nz-modal>
+      {{ collection.name }}
     </div>
   </div>
 </div>
@@ -24,9 +24,25 @@
 </div>
 
 <div class="add-collection">
-  <button nz-button nzType="primary" (click)="onAddCollection()">
+  <button nz-button nzType="'primary'" (click)="showModalName()">
     Add collection
   </button>
+  <nz-modal
+    [(nzVisible)]="isVisibleName"
+    nzTitle="Add new collection"
+    (nzOnCancel)="handleCancelName()"
+    (nzOnOk)="handleOkName()"
+  >
+    <nz-input-group nzSearch>
+      <input
+        name="searchText"
+        type="searchText"
+        nz-input
+        placeholder="Name your collection"
+        [(ngModel)]="collectionName"
+      />
+    </nz-input-group>
+  </nz-modal>
 </div>
 
 <router-outlet></router-outlet>

@@ -18,10 +18,10 @@ export class PhotosComponent implements OnInit {
   headerForm: FormGroup;
   navbarForm: FormGroup;
   @Input() collection;
+  selectedPhotos = [];
 
   constructor(private imageService: ImageService) {
-
-    console.log(this.collection)
+    console.log(this.collection);
   }
 
   ngOnInit() {
@@ -44,7 +44,7 @@ export class PhotosComponent implements OnInit {
         this.albums = [];
 
         for (let i = 0; i < this.images.length; i++) {
-          let photo_tags = this.images[i].photo_tags
+          let photo_tags = this.images[i].photo_id
             .map(function(val) {
               return val.title;
             })
