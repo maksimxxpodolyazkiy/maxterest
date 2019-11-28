@@ -26,13 +26,13 @@ export class AuthService {
 
   public handleWebAuthentication(): void {
     this.Auth0.parseHash((err, authResult) => {
-      console.log("test", authResult, err);
       if (authResult && authResult.accessToken) {
         window.location.hash = "";
         const { accessToken, refreshToken, expiresIn } = authResult;
         const expiresAt = expiresIn * 1000 + new Date().getTime();
         localStorage.setItem("session", JSON.stringify(authResult));
         localStorage.setItem("accessToken", JSON.stringify(accessToken));
+        localStorage.setItem("expiresAt", expiresAt.toString())
         console.log(expiresAt);
         window.location.href = window.location.origin;
       } else if (err) {
@@ -50,13 +50,14 @@ export class AuthService {
   }
 
   public static isLoggedIn(): boolean {
-    const expiresAt = localStorage.getItem("expires_at");
+    const expiresAt = localStorage.getItem("expiresAt");
     if (expiresAt) {
       return Date.now() < +expiresAt;
     }
     return false;
   }
 
+  // Вынести в отдельный file
   buildAuthentication(): Unsplash {
     var unsplashApi: Unsplash = new Unsplash({
       accessKey:
