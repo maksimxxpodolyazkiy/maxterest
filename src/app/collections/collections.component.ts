@@ -1,54 +1,42 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-  templateUrl: './collections.component.html',
-  styleUrls: ['./collections.component.scss']
+  templateUrl: "./collections.component.html",
+  styleUrls: ["./collections.component.scss"]
 })
 export class CollectionsComponent implements OnInit {
+  onLogged = false;
 
-  constructor() { }
+  collections = [];
 
-  ngOnInit() {
+  isVisible = false;
+  isOkLoading = false;
+
+  constructor() {}
+
+  ngOnInit() {}
+
+  showModal(): void {
+    this.isVisible = true;
   }
 
-  isLogged = true;
-
-  collections = [
-    {
-        id: 1,
-      name: 'My Collection',
-    },
-    {
-        id: 2,
-      name: 'Test Collection',
-    },
-    {
-        id: 3,
-      name: 'Collection Test',
-    },
-    {
-      id: 3,
-      name: 'Collection Test',
-    }];
-
-    isVisible = false;
-    isOkLoading = false;
-  
-    showModal(): void {
-      this.isVisible = true;
-    }
-  
-    handleOk(): void {
-      this.isOkLoading = true;
-      setTimeout(() => {
-        this.isVisible = false;
-        this.isOkLoading = false;
-      }, 500);
-    }
-  
-    handleCancel(): void {
+  handleOk(): void {
+    this.isOkLoading = true;
+    setTimeout(() => {
       this.isVisible = false;
-    }
-
-
+      this.isOkLoading = false;
+    }, 500);
   }
+
+  handleCancel(): void {
+    this.isVisible = false;
+  }
+
+  onAddCollection() {
+    if (!this.onLogged) {
+      this.onLogged = true;
+    }
+    const collection = {};
+    this.collections.push(collection);
+  }
+}

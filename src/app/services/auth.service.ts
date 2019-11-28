@@ -1,138 +1,71 @@
-import { Injectable } from '@angular/core';
-import createAuth0Client from '@auth0/auth0-spa-js';
-import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client';
-import { from, of, Observable, BehaviorSubject, combineLatest, throwError } from 'rxjs';
-import { tap, catchError, concatMap, shareReplay } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import Unsplash from 'unsplash-js';
+import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
+import { WebAuth } from "auth0-js";
+import Unsplash from "unsplash-js";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class AuthService {
-  // Create an observable of Auth0 instance of client
-  auth0Client$ = (from(
-    createAuth0Client({
-      domain: "dev-4ki7wwwi.auth0.com",
-      client_id: "RHPc6sFhMUOwVzGzf10a4wS6R6JII710",
-      redirect_uri: `${window.location.origin}`
-    })
-  ) as Observable<Auth0Client>).pipe(
-    shareReplay(1), // Every subscription receives the same shared value
-    catchError(err => throwError(err))
-  );
-  // Define observables for SDK methods that return promises by default
-  // For each Auth0 SDK method, first ensure the client instance is ready
-  // concatMap: Using the client instance, call SDK method; SDK returns a promise
-  // from: Convert that resulting promise into an observable
-  isAuthenticated$ = this.auth0Client$.pipe(
-    concatMap((client: Auth0Client) => from(client.isAuthenticated())),
-    tap(res => this.loggedIn = res)
-  );
-  handleRedirectCallback$ = this.auth0Client$.pipe(
-    concatMap((client: Auth0Client) => from(client.handleRedirectCallback()))
-  );
-  // Create subject and public observable of user profile data
-  private userProfileSubject$ = new BehaviorSubject<any>(null);
-  userProfile$ = this.userProfileSubject$.asObservable();
-  // Create a local property for login status
-  loggedIn: boolean = null;
-
+  private config = {
+    domain: "dev-4ki7wwwi.auth0.com",
+    clientID: "RHPc6sFhMUOwVzGzf10a4wS6R6JII710",
+    responseType: "token"
+  };
+  public Auth0: WebAuth;
   constructor(private router: Router) {
-    // On initial load, check authentication state with authorization server
-    // Set up local auth streams if user is already authenticated
-    this.localAuthSetup();
-    // Handle redirect from Auth0 login
-    this.handleAuthCallback();
+    this.Auth0 = new WebAuth(this.config);
   }
 
-  // When calling, options can be passed if desired
-  // https://auth0.github.io/auth0-spa-js/classes/auth0client.html#getuser
-  getUser$(options?): Observable<any> {
-    return this.auth0Client$.pipe(
-      concatMap((client: Auth0Client) => from(client.getUser(options))),
-      tap(user => this.userProfileSubject$.next(user))
-    );
-  }
-
-  private localAuthSetup() {
-    // This should only be called on app initialization
-    // Set up local authentication streams
-    const checkAuth$ = this.isAuthenticated$.pipe(
-      concatMap((loggedIn: boolean) => {
-        if (loggedIn) {
-          // If authenticated, get user and set in app
-          // NOTE: you could pass options here if needed
-          return this.getUser$();
-        }
-        // If not authenticated, return stream that emits 'false'
-        return of(loggedIn);
-      })
-    );
-    checkAuth$.subscribe();
-  }
-
-  login(redirectPath: string = '/') {
-    // A desired redirect path can be passed to login method
-    // (e.g., from a route guard)
-    // Ensure Auth0 client instance exists
-    this.auth0Client$.subscribe((client: Auth0Client) => {
-      // Call method to log in
-      client.loginWithRedirect({
-        redirect_uri: `${window.location.origin}`,
-        appState: { target: redirectPath }
-      });
+  public login(): void {
+    this.Auth0.authorize({
+      ...this.config,
+      redirectUri: `${window.location.origin}/callback`
     });
   }
 
-  private handleAuthCallback() {
-    // Call when app reloads after user logs in with Auth0
-    const params = window.location.search;
-    if (params.includes('code=') && params.includes('state=')) {
-      let targetRoute: string; // Path to redirect to after login processsed
-      const authComplete$ = this.handleRedirectCallback$.pipe(
-        // Have client, now call method to handle auth callback redirect
-        tap(cbRes => {
-          // Get and set target redirect route from callback results
-          targetRoute = cbRes.appState && cbRes.appState.target ? cbRes.appState.target : '/';
-        }),
-        concatMap(() => {
-          // Redirect callback complete; get user and login status
-          return combineLatest([
-            this.getUser$(),
-            this.isAuthenticated$
-          ]);
-        })
-      );
-      // Subscribe to authentication completion observable
-      // Response will be an array of user and login status
-      authComplete$.subscribe(([user, loggedIn]) => {
-        // Redirect to target route after callback processing
-        this.router.navigate([targetRoute]);
-      });
+  public handleWebAuthentication(): void {
+    this.Auth0.parseHash((err, authResult) => {
+      console.log("test", authResult, err);
+      if (authResult && authResult.accessToken) {
+        window.location.hash = "";
+        const { accessToken, refreshToken, expiresIn } = authResult;
+        const expiresAt = expiresIn * 1000 + new Date().getTime();
+        localStorage.setItem("session", JSON.stringify(authResult));
+        localStorage.setItem("accessToken", JSON.stringify(accessToken));
+        console.log(expiresAt);
+        window.location.href = window.location.origin;
+      } else if (err) {
+        this.router.navigateByUrl("/auth");
+      }
+    });
+  }
+
+  public logOut(): void {
+    // TODO: logout
+  }
+
+  public static getToken(): string {
+    return localStorage.getItem("accessToken");
+  }
+
+  public static isLoggedIn(): boolean {
+    const expiresAt = localStorage.getItem("expires_at");
+    if (expiresAt) {
+      return Date.now() < +expiresAt;
     }
-  }
-
-  logout() {
-    // Ensure Auth0 client instance exists
-    this.auth0Client$.subscribe((client: Auth0Client) => {
-      // Call method to log out
-      client.logout({
-        client_id: "RHPc6sFhMUOwVzGzf10a4wS6R6JII710",
-        returnTo: `${window.location.origin}`
-      });
-    });
+    return false;
   }
 
   buildAuthentication(): Unsplash {
-    console.log("/* BUILD AUTHENTICATION */")
-
     var unsplashApi: Unsplash = new Unsplash({
-      applicationId: "8ad318674f52e5c6b766fe2d4fa5496ed38818604a7358098c581dd107a52181",
+      accessKey:
+        "8ad318674f52e5c6b766fe2d4fa5496ed38818604a7358098c581dd107a52181",
+      applicationId:
+        "8ad318674f52e5c6b766fe2d4fa5496ed38818604a7358098c581dd107a52181",
       secret: "6b02c9b56496572446fdfd1b0c95e47ecfb4870cc126d27ed7e9f3896ae48e6f"
     });
-    
+
     return unsplashApi;
   }
-
 }

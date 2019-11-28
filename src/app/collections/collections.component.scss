@@ -1,18 +1,19 @@
 .collection {
-    text-align: center;
-    padding: 1.5rem;
+  text-align: center;
+  padding: 1.5rem;
+  margin-bottom: 20px;
 }
 
 .ant-col {
-    padding: 1rem 2rem;
-    border: 1px solid #355C7D;
-    border-radius: 0.5rem;
+  padding: 1rem 2rem;
+  border: 1px solid #355c7d;
+  border-radius: 0.5rem;
 }
 
 .add-collection {
-    display: flex;
-    justify-content: center;
-    button {
-        background: #355C7D;
-    }
+  display: flex;
+  justify-content: center;
+  button {
+    background: #355c7d;
+  }
 }
