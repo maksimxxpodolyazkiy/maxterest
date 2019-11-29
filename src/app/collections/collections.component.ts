@@ -1,71 +1,44 @@
-import { Component, OnInit, SimpleChanges } from "@angular/core";
-import { longStackSupport } from "q";
-
-interface Collection {
-  id: number;
-  name: string;
-}
+import { Component, OnInit, OnChanges, SimpleChanges } from "@angular/core";
+import { CollectionDataService } from "../services/collection-data.service";
 
 @Component({
   templateUrl: "./collections.component.html",
   styleUrls: ["./collections.component.scss"]
 })
-export class CollectionsComponent implements OnInit {
+export class CollectionsComponent implements OnInit, OnChanges {
   collectionName = "";
 
   collections = [];
-  collection: Collection;
+  haveCollections = true;
 
-  onLogged = false;
-  isVisible = false;
   isVisibleName = false;
-  isOkLoading = false;
 
-  constructor() {}
+  constructor(private collsDataService: CollectionDataService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.collections = this.collsDataService.getCollections();
+  }
 
   showModalName(): void {
     this.isVisibleName = true;
   }
 
-  showModal(): void {
-    this.isVisible = true;
-  }
-
-  handleOk(): void {
-    this.isOkLoading = true;
-    Object.assign(this.collection);
-    setTimeout(() => {
-      this.isVisible = false;
-      this.isOkLoading = false;
-    }, 500);
-  }
-
   handleOkName(): void {
-    this.collection = {
+    this.collsDataService.addToCollection({
+      id: Math.floor(Math.random() * 100000),
       name: this.collectionName,
-      id: Math.floor(Math.random() * 1000000)
-    };
-    this.onAddCollection(this.collection);
+      urls: []
+    });
 
     this.isVisibleName = false;
     this.collectionName = "";
-  }
-
-  handleCancel(): void {
-    this.isVisible = false;
   }
 
   handleCancelName(): void {
     this.isVisibleName = false;
   }
 
-  onAddCollection(collect): void {
-    if (!this.onLogged) {
-      this.onLogged = true;
-    }
-
-    this.collections.push(collect);
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
   }
 }

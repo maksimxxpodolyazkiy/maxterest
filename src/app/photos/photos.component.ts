@@ -1,9 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  CollectionChangeRecord
-} from "@angular/core";
+import { Component, OnInit, OnChanges, SimpleChanges } from "@angular/core";
 import { ImageService } from "../services/image.service";
 import { FormControl, FormGroup } from "@angular/forms";
 
@@ -12,17 +7,15 @@ import { FormControl, FormGroup } from "@angular/forms";
   templateUrl: "./photos.component.html",
   styleUrls: ["./photos.component.scss"]
 })
-export class PhotosComponent implements OnInit {
+export class PhotosComponent implements OnInit, OnChanges {
   public images: Array<any>;
   public albums: Array<any> = [];
   headerForm: FormGroup;
   navbarForm: FormGroup;
-  @Input() collection;
-  selectedPhotos = [];
+  selectedPhotos: Array<string> = [];
+  public isSelected = false;
 
-  constructor(private imageService: ImageService) {
-    console.log(this.collection);
-  }
+  constructor(private imageService: ImageService) {}
 
   ngOnInit() {
     this.navbarForm = new FormGroup({
@@ -69,7 +62,15 @@ export class PhotosComponent implements OnInit {
     }
   }
 
-  isNullOrWhitespace(searchRequest: any): boolean {
+  isNullOrWhitespace(searchRequest: string): boolean {
     return !searchRequest || !searchRequest.trim();
+  }
+
+  onSelect(event) {
+    this.selectedPhotos = [...this.selectedPhotos, event.target.currentSrc];
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
   }
 }

@@ -3,15 +3,13 @@ import { NgModule } from "@angular/core";
 
 import { AppComponent } from "./app.component";
 import { NgZorroAntdModule, NZ_I18N, en_US } from "ng-zorro-antd";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { registerLocaleData } from "@angular/common";
 import en from "@angular/common/locales/en";
 import { AuthComponent } from "./auth/auth.component";
 import { CollectionsComponent } from "./collections/collections.component";
-import { CollectionsRoutingModule } from "./collections/collections-routing.module";
-import { AuthRoutingModule } from "./auth/auth-routing.module";
 import { RouterModule, Routes } from "@angular/router";
 import { AuthService } from "./services/auth.service";
 import { AuthGuard } from "./auth/auth.guard";
@@ -28,7 +26,8 @@ const appRoutes: Routes = [
     component: CollectionsComponent,
     canActivate: [AuthGuard]
   },
-  { path: "auth", component: AuthComponent },
+  { path: "collections/:id", component: CollectionComponent },
+  { path: "auth", component: AuthComponent }, // TODO: NoAuth Guard
   { path: "photos", component: PhotosComponent },
   { path: "callback", component: CallbackPage },
   { path: "", redirectTo: "/collections", pathMatch: "full" },
@@ -36,15 +35,21 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, CollectionComponent],
+  declarations: [
+    AppComponent,
+    CollectionComponent,
+    PhotosComponent,
+    CollectionsComponent,
+    CallbackPage,
+    AuthComponent
+  ],
   imports: [
     BrowserModule,
     NgZorroAntdModule,
     FormsModule,
     HttpClientModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
-    CollectionsRoutingModule,
-    AuthRoutingModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [

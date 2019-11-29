@@ -1,27 +1,30 @@
 <form [formGroup]="navbarForm">
-  <div class="selected">
-    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-      <input
-        name="searchText"
-        type="searchText"
-        nz-input
-        placeholder="Search photos ..."
-        #searchRequest
-      />
-    </nz-input-group>
-    <ng-template #suffixIconButton>
-      <button
-        nz-button
-        nzType="primary"
-        nzSearch
-        (click)="onSearch($event, searchRequest.value)"
-      >
-        <i nz-icon nzType="search"></i>
-      </button>
-    </ng-template>
-  </div>
+  <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+    <input
+      name="searchText"
+      type="searchText"
+      nz-input
+      placeholder="Search photos ..."
+      #searchRequest
+    />
+  </nz-input-group>
+  <ng-template #suffixIconButton>
+    <button
+      nz-button
+      nzType="primary"
+      nzSearch
+      (click)="onSearch($event, searchRequest.value)"
+    >
+      <i nz-icon nzType="search"></i>
+    </button>
+  </ng-template>
 </form>
 
-<div *ngFor="let image of images" class="image-box">
-  <img [src]="image.urls.thumb" />
+<div *ngFor="let image of images" class="image-box" (click)="onSelect($event)">
+  <img
+    [src]="image.urls.thumb"
+    [ngClass]="
+      selectedPhotos.includes(image.urls.thumb) ? 'selected' : 'unselected'
+    "
+  />
 </div>

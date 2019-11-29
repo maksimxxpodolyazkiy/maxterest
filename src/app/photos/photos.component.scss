@@ -1,10 +1,21 @@
 .image-box {
   display: inline-flex;
-  padding-right: 10px;
+  padding: 0.2rem;
+}
 
-  img {
-    width: 100px;
-    max-height: 100px;
-    padding-bottom: 30px;
-  }
+.selected {
+  width: 100px;
+  max-height: 100px;
+  padding: 1rem;
+  margin: auto;
+  background: #355c7d;
+  opacity: 0.5;
+}
+
+.unselected {
+  width: 100px;
+  max-height: 100px;
+  padding: 1rem;
+  margin: auto;
+  background: white;
 }

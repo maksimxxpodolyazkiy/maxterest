@@ -32,17 +32,13 @@ export class AuthService {
         const expiresAt = expiresIn * 1000 + new Date().getTime();
         localStorage.setItem("session", JSON.stringify(authResult));
         localStorage.setItem("accessToken", JSON.stringify(accessToken));
-        localStorage.setItem("expiresAt", expiresAt.toString())
+        localStorage.setItem("expiresAt", expiresAt.toString());
         console.log(expiresAt);
         window.location.href = window.location.origin;
       } else if (err) {
         this.router.navigateByUrl("/auth");
       }
     });
-  }
-
-  public logOut(): void {
-    // TODO: logout
   }
 
   public static getToken(): string {
