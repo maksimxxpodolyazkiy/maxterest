@@ -14,7 +14,7 @@ import { AuthService } from "../services/auth.service";
 export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
-  canActivate(
+  public canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | boolean {
@@ -25,22 +25,3 @@ export class AuthGuard implements CanActivate {
     return loggedIn;
   }
 }
-
-// export class AuthGuard implements CanActivate {
-
-//   constructor(private auth: AuthService) {}
-
-//   canActivate(
-//     next: ActivatedRouteSnapshot,
-//     state: RouterStateSnapshot
-//   ): Observable<boolean> | Promise<boolean|UrlTree> | boolean {
-//     return this.auth.isAuthenticated$.pipe(
-//       tap(loggedIn => {
-//         if (!loggedIn) {
-//           this.auth.login(state.url);
-//         }
-//       })
-//     );
-//   }
-
-// }

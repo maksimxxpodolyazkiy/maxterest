@@ -1,24 +1,19 @@
-import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
-
 import { AppComponent } from "./app.component";
-import { NgZorroAntdModule, NZ_I18N, en_US } from "ng-zorro-antd";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { registerLocaleData } from "@angular/common";
-import en from "@angular/common/locales/en";
 import { AuthComponent } from "./auth/auth.component";
-import { CollectionsComponent } from "./collections/collections.component";
-import { RouterModule, Routes } from "@angular/router";
-import { AuthService } from "./services/auth.service";
 import { AuthGuard } from "./auth/auth.guard";
-import { PhotosComponent } from "./photos/photos.component";
-import { Global } from "./providers/global";
-import { CollectionComponent } from "./collection/collection.component";
+import { AuthService } from "./services/auth.service";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { BrowserModule } from "@angular/platform-browser";
 import { CallbackPage } from "./callback/callback.page";
-
-registerLocaleData(en);
+import { CollectionComponent } from "./collection/collection.component";
+import { CollectionsComponent } from "./collections/collections.component";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { Global } from "./providers/global";
+import { HttpClientModule } from "@angular/common/http";
+import { NgModule } from "@angular/core";
+import { NgZorroAntdModule, NZ_I18N, en_US } from "ng-zorro-antd";
+import { PhotosComponent } from "./photos/photos.component";
+import { RouterModule, Routes } from "@angular/router";
 
 const appRoutes: Routes = [
   {

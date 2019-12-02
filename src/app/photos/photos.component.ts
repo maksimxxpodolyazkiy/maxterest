@@ -1,76 +1,83 @@
-import { Component, OnInit, OnChanges, SimpleChanges } from "@angular/core";
+import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 import { ImageService } from "../services/image.service";
-import { FormControl, FormGroup } from "@angular/forms";
+import { FormGroup, FormControl } from "@angular/forms";
+import { Album } from "../interfaces/album.interface";
 
 @Component({
   selector: "app-photos",
   templateUrl: "./photos.component.html",
   styleUrls: ["./photos.component.scss"]
 })
-export class PhotosComponent implements OnInit, OnChanges {
-  public images: Array<any>;
-  public albums: Array<any> = [];
-  headerForm: FormGroup;
-  navbarForm: FormGroup;
-  selectedPhotos: Array<string> = [];
-  public isSelected = false;
+export class PhotosComponent implements OnInit {
+  public images: any[];
+  public albums: any[];
+  public searchbarForm: FormGroup;
+  public selectedPhotos: string[] = [];
+  public isSelected: boolean = false;
 
   constructor(private imageService: ImageService) {}
 
-  ngOnInit() {
-    this.navbarForm = new FormGroup({
+  public ngOnInit(): void {
+    this.searchbarForm = new FormGroup({
       searchText: new FormControl()
-    });
-
-    this.headerForm = new FormGroup({
-      searchInputType: new FormControl()
     });
   }
 
-  async onSearch(event, searchRequest: string) {
+  public async onSearch(event, searchRequest: string): Promise<any> {
     if (event.key === "Enter" || event.type === "click") {
       if (!this.isNullOrWhitespace(searchRequest)) {
-        this.navbarForm.get("searchText").setValue(searchRequest);
-        this.headerForm.get("searchInputType").setValue("");
+        this.searchbarForm.get("searchText").setValue(searchRequest);
 
         this.images = await this.imageService.searchImages(searchRequest);
         this.albums = [];
 
-        for (let i = 0; i < this.images.length; i++) {
-          let photo_tags = this.images[i].photo_id
-            .map(function(val) {
-              return val.title;
-            })
+        for (const image of this.images) {
+          const photoTags = image.photo_id
+            .map((val: { title: any }) => val.title)
             .join(", ");
 
-          const album = {
-            src: this.images[i].urls.full,
+          const album: Album = {
+            src: image.urls.full,
             caption:
               "Description: " +
-              this.images[i].description +
+              image.description +
               "<br/>Uploaded user: " +
-              this.images[i].user.name +
+              image.user.name +
               "<br/>Photo tags: " +
-              photo_tags +
+              photoTags +
               "<br/>Likes: " +
-              this.images[i].likes,
-            thumb: this.images[i].urls.thumb
+              image.likes,
+            thumb: image.urls.thumb
           };
           this.albums.push(album);
+          this.searchbarForm.get("searchText").setValue("");
         }
       }
     }
   }
 
-  isNullOrWhitespace(searchRequest: string): boolean {
+  public isNullOrWhitespace(searchRequest: string): boolean {
     return !searchRequest || !searchRequest.trim();
   }
 
-  onSelect(event) {
-    this.selectedPhotos = [...this.selectedPhotos, event.target.currentSrc];
-  }
+  @Output() public getSelectedPhotos: EventEmitter<string[]> = new EventEmitter<
+    string[]
+  >(false);
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
+  public onToggleSelection(event): void {
+    if (event.target.className === "selected") {
+      event.target.className = "unselected";
+      const idx = this.selectedPhotos.findIndex(
+        item => item === event.target.currentSrc
+      );
+
+      this.selectedPhotos = [
+        ...this.selectedPhotos.slice(0, idx),
+        ...this.selectedPhotos.slice(idx + 1)
+      ];
+    } else {
+      this.selectedPhotos = [...this.selectedPhotos, event.target.currentSrc];
+    }
+    this.getSelectedPhotos.emit(this.selectedPhotos);
   }
 }

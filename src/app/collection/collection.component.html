@@ -1,19 +1,23 @@
-<div *ngIf="haveCollections; else noPhotos" class="collection">
+<div class="collection">
   <nz-modal
     [(nzVisible)]="isVisible"
     (nzOnCancel)="handleCancel()"
     (nzOnOk)="handleOk()"
     nzTitle="Photos"
   >
-    <app-photos></app-photos>
+    <app-photos (getSelectedPhotos)="getSelectedPhotos($event)"></app-photos>
   </nz-modal>
 </div>
+<!-- 
+<div *ngIf="collection.urls.length === 0" class="collection">
+  <h2>You have no photos</h2>
+</div> -->
 
-<ng-template #noPhotos>
-  <div class="collection">
-    <h2>You have no photos</h2>
+<div class="flex-box">
+  <div class="flex" *ngFor="let image of collection.urls">
+    <img [src]="image" alt="search photo" />
   </div>
-</ng-template>
+</div>
 
 <div class="add-photo">
   <button nz-button nzType="'primary'" (click)="showModal()">

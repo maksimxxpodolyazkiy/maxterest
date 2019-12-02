@@ -1,29 +1,30 @@
-import { Component, OnInit, OnChanges, SimpleChanges } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
+import { Collection } from "../interfaces/collection.interface";
 import { CollectionDataService } from "../services/collection-data.service";
 
 @Component({
   templateUrl: "./collections.component.html",
   styleUrls: ["./collections.component.scss"]
 })
-export class CollectionsComponent implements OnInit, OnChanges {
-  collectionName = "";
+export class CollectionsComponent implements OnInit {
+  public collectionName: string = "";
 
-  collections = [];
-  haveCollections = true;
+  public collections: Collection[] = [];
 
-  isVisibleName = false;
+  public haveCollections: boolean = true;
+  public isVisibleName: boolean = false;
 
   constructor(private collsDataService: CollectionDataService) {}
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.collections = this.collsDataService.getCollections();
   }
 
-  showModalName(): void {
+  public showModalName(): void {
     this.isVisibleName = true;
   }
 
-  handleOkName(): void {
+  public handleOkName(): void {
     this.collsDataService.addToCollection({
       id: Math.floor(Math.random() * 100000),
       name: this.collectionName,
@@ -34,11 +35,7 @@ export class CollectionsComponent implements OnInit, OnChanges {
     this.collectionName = "";
   }
 
-  handleCancelName(): void {
+  public handleCancelName(): void {
     this.isVisibleName = false;
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
   }
 }

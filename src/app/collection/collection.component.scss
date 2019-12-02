@@ -11,3 +11,13 @@
     background: #355c7d;
   }
 }
+
+.flex-box {
+  display: inline-flex;
+  flex-wrap: wrap;
+
+  .flex {
+    padding: 1rem;
+    margin-bottom: auto;
+  }
+}

@@ -5,20 +5,34 @@ import { Collection } from "../interfaces/collection.interface";
   providedIn: "root"
 })
 export class CollectionDataService {
-  collections: Collection[] = [];
-  constructor() {}
+  public collections: Collection[] = [];
 
-  addToCollection(collection: Collection): void {
+  public addToCollection(collection: Collection): void {
     this.collections.push(collection);
+    window.localStorage.setItem(
+      "collections",
+      JSON.stringify(this.collections)
+    );
   }
 
-  getCollections() {
+  public getCollections(): Collection[] {
+    if (!!localStorage.getItem("collections")) {
+      return JSON.parse(localStorage.getItem("collections"));
+    }
     return this.collections;
   }
 
-  addPhotosToCollection(id: number, urls: string[]) {}
+  public addPhotosToCollection(id: number, urls: string[]): Collection {
+    if (!!window.localStorage.getItem("photos")) {
+      return JSON.parse(window.localStorage.getItem("photos"));
+    }
+    const collection = this.collections.find(i => i.id === id);
+    collection.urls = urls;
+    window.localStorage.setItem("photos", JSON.stringify(collection.urls));
+    return collection;
+  }
 
-  getSingleCollection(id: number) {
+  public getSingleCollection(id: number): Collection {
     const collId = this.collections.find(coll => coll.id === id);
     return collId;
   }

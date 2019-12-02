@@ -1,4 +1,4 @@
-<form [formGroup]="navbarForm">
+<form [formGroup]="searchbarForm">
   <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
     <input
       name="searchText"
@@ -20,11 +20,12 @@
   </ng-template>
 </form>
 
-<div *ngFor="let image of images" class="image-box" (click)="onSelect($event)">
+<div *ngFor="let image of images" class="image-box">
   <img
     [src]="image.urls.thumb"
     [ngClass]="
       selectedPhotos.includes(image.urls.thumb) ? 'selected' : 'unselected'
     "
+    (click)="onToggleSelection($event)"
   />
 </div>

@@ -7,14 +7,17 @@ import { Global } from "../providers/global";
 export class ImageService {
   constructor(private global: Global) {}
 
-  searchImages(
-    userInput: String,
+  public async searchImages(
+    userInput: string,
     pageIndex: number = 1,
     elementsPerPage: number = 10
   ): Promise<any> {
-    return this.global.UNSPLASH_API.search
-      .photos(userInput, pageIndex, elementsPerPage)
-      .then(response => response.json())
-      .then(json => json.results);
+    const response = await this.global.UNSPLASH_API.search.photos(
+      userInput,
+      pageIndex,
+      elementsPerPage
+    );
+    const json = await response.json();
+    return json.results;
   }
 }

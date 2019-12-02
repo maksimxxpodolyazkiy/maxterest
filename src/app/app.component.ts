@@ -7,5 +7,5 @@ import { AuthService } from "./services/auth.service";
   styleUrls: ["./app.component.scss"]
 })
 export class AppComponent {
-  title = "my-pinterest";
+  public title: string = "my-pinterest";
 }
