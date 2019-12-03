@@ -1,39 +1,42 @@
-import { Injectable } from "@angular/core";
+import { Injectable, SimpleChanges } from "@angular/core";
+import { BehaviorSubject, Observable } from "rxjs";
 import { Collection } from "../interfaces/collection.interface";
 
 @Injectable({
   providedIn: "root"
 })
 export class CollectionDataService {
-  public collections: Collection[] = [];
+  public behSubj: BehaviorSubject<Collection[]> = new BehaviorSubject<
+    Collection[]
+  >(
+    !!localStorage.getItem("collections")
+      ? JSON.parse(localStorage.getItem("collections"))
+      : []
+  );
+
+  constructor() {
+    this.behSubj.subscribe(item => {
+      localStorage.setItem("collections", JSON.stringify(item));
+    });
+  }
 
   public addToCollection(collection: Collection): void {
-    this.collections.push(collection);
-    window.localStorage.setItem(
-      "collections",
-      JSON.stringify(this.collections)
-    );
+    this.behSubj.next([...this.behSubj.getValue(), collection]);
   }
 
-  public getCollections(): Collection[] {
-    if (!!localStorage.getItem("collections")) {
-      return JSON.parse(localStorage.getItem("collections"));
-    }
-    return this.collections;
-  }
-
-  public addPhotosToCollection(id: number, urls: string[]): Collection {
-    if (!!window.localStorage.getItem("photos")) {
-      return JSON.parse(window.localStorage.getItem("photos"));
-    }
-    const collection = this.collections.find(i => i.id === id);
+  public addPhotosToCollection(id: number, urls: string[]): void {
+    const collection = this.behSubj.getValue().find(i => i.id === id);
     collection.urls = urls;
-    window.localStorage.setItem("photos", JSON.stringify(collection.urls));
-    return collection;
+    this.behSubj.next([...this.behSubj.getValue(), collection]);
   }
 
-  public getSingleCollection(id: number): Collection {
-    const collId = this.collections.find(coll => coll.id === id);
-    return collId;
+  public getSingleCollection(id: number): Observable<Collection> {
+    return Observable.create(subscriber => {
+      this.behSubj.subscribe(x => {
+        const colls = x;
+        const collId = colls.find(c => c.id === id);
+        subscriber.next(collId);
+      });
+    });
   }
 }

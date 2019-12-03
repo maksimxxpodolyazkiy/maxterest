@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { Collection } from "../interfaces/collection.interface";
-import { CollectionDataService } from "../services/collection-data.service";
+import { Collection } from "../../interfaces/collection.interface";
+import { CollectionDataService } from "../../services/collection-data.service";
 
 @Component({
   templateUrl: "./collections.component.html",
@@ -17,7 +17,9 @@ export class CollectionsComponent implements OnInit {
   constructor(private collsDataService: CollectionDataService) {}
 
   public ngOnInit(): void {
-    this.collections = this.collsDataService.getCollections();
+    this.collsDataService.behSubj.subscribe(x => {
+      this.collections = x;
+    });
   }
 
   public showModalName(): void {

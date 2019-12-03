@@ -1,6 +1,7 @@
 <div *ngIf="collections.length > 0; else noCollections" class="collection">
   <div nz-row nzType="flex" nzJustify="space-between">
     <a
+      class="collection-anchor"
       nz-col
       nzSpan="5"
       *ngFor="let collection of collections"
@@ -18,7 +19,7 @@
 </ng-template>
 
 <div class="add-collection">
-  <button nz-button nzType="'primary'" (click)="showModalName()">
+  <button nz-button nzSize="large" nzType="default" (click)="showModalName()">
     Add collection
   </button>
   <nz-modal

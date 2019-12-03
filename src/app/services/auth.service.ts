@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { WebAuth } from "auth0-js";
-import Unsplash from "unsplash-js";
 
 @Injectable({
   providedIn: "root"

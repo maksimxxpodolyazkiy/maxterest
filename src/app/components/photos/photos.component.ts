@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from "@angular/core";
-import { ImageService } from "../services/image.service";
+import { ImageService } from "../../services/image.service";
 import { FormGroup, FormControl } from "@angular/forms";
-import { Album } from "../interfaces/album.interface";
+import { Album } from "../../interfaces/album.interface";
 
 @Component({
   selector: "app-photos",
@@ -14,6 +14,8 @@ export class PhotosComponent implements OnInit {
   public searchbarForm: FormGroup;
   public selectedPhotos: string[] = [];
   public isSelected: boolean = false;
+
+  @Output() public getSelectedPhotos = new EventEmitter();
 
   constructor(private imageService: ImageService) {}
 
@@ -59,10 +61,6 @@ export class PhotosComponent implements OnInit {
   public isNullOrWhitespace(searchRequest: string): boolean {
     return !searchRequest || !searchRequest.trim();
   }
-
-  @Output() public getSelectedPhotos: EventEmitter<string[]> = new EventEmitter<
-    string[]
-  >(false);
 
   public onToggleSelection(event): void {
     if (event.target.className === "selected") {

@@ -13,14 +13,14 @@
   <h2>You have no photos</h2>
 </div> -->
 
-<div class="flex-box">
-  <div class="flex" *ngFor="let image of collection.urls">
+<div class="box-image" *ngIf="collection">
+  <div class="image" *ngFor="let image of collection.urls">
     <img [src]="image" alt="search photo" />
   </div>
 </div>
 
 <div class="add-photo">
-  <button nz-button nzType="'primary'" (click)="showModal()">
+  <button nz-button nzSize="large" nzType="default" (click)="showModal()">
     Add photo
   </button>
 </div>
