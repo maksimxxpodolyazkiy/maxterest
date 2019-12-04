@@ -1,6 +1,6 @@
-import { ActivatedRoute, Params } from "@angular/router";
-import { Collection } from "../../../interfaces/collection.interface";
 import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Params, Router } from "@angular/router";
+import { Collection } from "../../../interfaces/collection.interface";
 import { CollectionDataService } from "../../../services/collection-data.service";
 
 @Component({
@@ -16,15 +16,9 @@ export class CollectionComponent implements OnInit {
 
   constructor(
     private collsDataService: CollectionDataService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
-
-  // public ngOnChanges(changes: SimpleChanges): void {
-  //   if (!!localStorage.getItem("photos")) {
-  //     this.collection.urls = JSON.parse(localStorage.getItem("photos"));
-  //   }
-  //   console.log(changes);
-  // }
 
   public ngOnInit(): void {
     this.route.params.forEach((params: Params) => {

@@ -29,31 +29,7 @@ export class PhotosComponent implements OnInit {
     if (event.key === "Enter" || event.type === "click") {
       if (!this.isNullOrWhitespace(searchRequest)) {
         this.searchbarForm.get("searchText").setValue(searchRequest);
-
         this.images = await this.imageService.searchImages(searchRequest);
-        this.albums = [];
-
-        for (const image of this.images) {
-          const photoTags = image.photo_id
-            .map((val: { title: any }) => val.title)
-            .join(", ");
-
-          const album: Album = {
-            src: image.urls.full,
-            caption:
-              "Description: " +
-              image.description +
-              "<br/>Uploaded user: " +
-              image.user.name +
-              "<br/>Photo tags: " +
-              photoTags +
-              "<br/>Likes: " +
-              image.likes,
-            thumb: image.urls.thumb
-          };
-          this.albums.push(album);
-          this.searchbarForm.get("searchText").setValue("");
-        }
       }
     }
   }

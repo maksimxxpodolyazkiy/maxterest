@@ -37,6 +37,16 @@ export class AuthService {
     });
   }
 
+  public logout(): void {
+    this.Auth0.logout({
+      returnTo: `${window.location.origin}/auth`
+    });
+
+    localStorage.removeItem("collections");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("expiresAt");
+  }
+
   public handleWebAuthentication(): void {
     this.Auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken) {

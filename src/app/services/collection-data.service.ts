@@ -1,4 +1,4 @@
-import { Injectable, SimpleChanges } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { Collection } from "../interfaces/collection.interface";
 
@@ -25,9 +25,10 @@ export class CollectionDataService {
   }
 
   public addPhotosToCollection(id: number, urls: string[]): void {
-    const collection = this.behSubj.getValue().find(i => i.id === id);
-    collection.urls = urls;
-    this.behSubj.next([...this.behSubj.getValue(), collection]);
+    const value = this.behSubj.getValue();
+    const collection = value.find(i => i.id === id);
+    collection.urls = [...collection.urls, ...urls];
+    this.behSubj.next(value);
   }
 
   public getSingleCollection(id: number): Observable<Collection> {

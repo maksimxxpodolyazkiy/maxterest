@@ -1,6 +1,15 @@
 <nz-layout>
   <nz-header>
-    <a routerLink="/collections">Maxterest</a>
+    <div nz-row>
+      <div nz-col nzSpan="8">
+        <a routerLink="/collections">Maxterest</a>
+      </div>
+      <div nz-col nzSpan="8" nzOffset="8">
+        <a *ngIf="isLoggedIn" (click)="auth.logout()" class="logout">
+          Logout
+        </a>
+      </div>
+    </div>
   </nz-header>
   <nz-content>
     <router-outlet></router-outlet>

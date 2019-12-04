@@ -6,6 +6,10 @@ import { AuthService } from "./services/auth.service";
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"]
 })
-export class AppComponent {
-  public title: string = "my-pinterest";
+export class AppComponent implements OnInit {
+  public isLoggedIn: boolean;
+  constructor(private auth: AuthService) {}
+  public ngOnInit(): void {
+    this.isLoggedIn = AuthService.isLoggedIn();
+  }
 }

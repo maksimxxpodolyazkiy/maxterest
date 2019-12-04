@@ -1,19 +1,20 @@
+import { HttpClientModule } from "@angular/common/http";
+import { NgModule } from "@angular/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { en_US, NgZorroAntdModule, NZ_I18N } from "ng-zorro-antd";
+import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { AuthComponent } from "./components/auth/auth.component";
 import { AuthGuard } from "./components/auth/auth.guard";
-import { AuthService } from "./services/auth.service";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { BrowserModule } from "@angular/platform-browser";
 import { CallbackPage } from "./components/callback/callback.page";
 import { CollectionComponent } from "./components/collections/collection/collection.component";
 import { CollectionsComponent } from "./components/collections/collections.component";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { Global } from "./providers/global";
-import { HttpClientModule } from "@angular/common/http";
-import { NgModule } from "@angular/core";
-import { NgZorroAntdModule, NZ_I18N, en_US } from "ng-zorro-antd";
 import { PhotosComponent } from "./components/photos/photos.component";
-import { AppRoutingModule } from "./app-routing.module";
+import { Global } from "./providers/global";
+import { AuthService } from "./services/auth.service";
+import { ImageService } from "./services/image.service";
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { AppRoutingModule } from "./app-routing.module";
     { provide: NZ_I18N, useValue: en_US },
     AuthService,
     AuthGuard,
+    ImageService,
     Global
   ],
   bootstrap: [AppComponent]
