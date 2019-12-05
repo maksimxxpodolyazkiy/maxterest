@@ -5,7 +5,8 @@ import {
   Router,
   RouterStateSnapshot
 } from "@angular/router";
-import { Observable, from, of, Subscription } from "rxjs";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 import { CollectionDataService } from "src/app/services/collection-data.service";
 
 @Injectable({
@@ -18,17 +19,15 @@ export class CollectionGuard implements CanActivate {
   public canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<Subscription> {
-    const subj = this.data
-      .getSingleCollection(+route.params.id)
-      .subscribe(x => {
-        if (!x) {
+  ): Observable<boolean> | boolean {
+    return this.data.getSingleCollection(+route.params.id).pipe(
+      map(collection => {
+        if (!collection) {
           this.router.navigateByUrl("collections");
           return false;
         }
         return true;
-      });
-    const obs = of(subj);
-    return obs;
+      })
+    );
   }
 }
