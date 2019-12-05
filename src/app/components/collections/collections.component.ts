@@ -17,13 +17,17 @@ export class CollectionsComponent implements OnInit {
   constructor(private collsDataService: CollectionDataService) {}
 
   public ngOnInit(): void {
-    this.collsDataService.behSubj.subscribe(x => {
-      this.collections = x;
+    this.collsDataService.behSubj.subscribe(serviceCollections => {
+      this.collections = serviceCollections;
     });
   }
 
   public showModalName(): void {
     this.isVisibleName = true;
+  }
+
+  public onEnter(): void {
+    this.handleOkName();
   }
 
   public handleOkName(): void {
@@ -32,7 +36,6 @@ export class CollectionsComponent implements OnInit {
       name: this.collectionName,
       urls: []
     });
-
     this.isVisibleName = false;
     this.collectionName = "";
   }

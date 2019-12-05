@@ -1,7 +1,7 @@
-import { Component, OnInit, Output, EventEmitter } from "@angular/core";
-import { ImageService } from "../../services/image.service";
-import { FormGroup, FormControl } from "@angular/forms";
+import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { FormControl, FormGroup } from "@angular/forms";
 import { Album } from "../../interfaces/album.interface";
+import { ImageService } from "../../services/image.service";
 
 @Component({
   selector: "app-photos",
@@ -15,7 +15,9 @@ export class PhotosComponent implements OnInit {
   public selectedPhotos: string[] = [];
   public isSelected: boolean = false;
 
-  @Output() public getSelectedPhotos = new EventEmitter();
+  @Output() public getSelectedPhotos: EventEmitter<
+    string[]
+  > = new EventEmitter();
 
   constructor(private imageService: ImageService) {}
 
@@ -26,11 +28,13 @@ export class PhotosComponent implements OnInit {
   }
 
   public async onSearch(event, searchRequest: string): Promise<any> {
-    if (event.key === "Enter" || event.type === "click") {
-      if (!this.isNullOrWhitespace(searchRequest)) {
-        this.searchbarForm.get("searchText").setValue(searchRequest);
-        this.images = await this.imageService.searchImages(searchRequest);
-      }
+    if (
+      event.key === "Enter" ||
+      event.type === "click" ||
+      !this.isNullOrWhitespace(searchRequest)
+    ) {
+      this.searchbarForm.get("searchText").setValue(searchRequest);
+      this.images = await this.imageService.searchImages(searchRequest);
     }
   }
 

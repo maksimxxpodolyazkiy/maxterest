@@ -32,6 +32,7 @@
       nz-input
       placeholder="Name your collection"
       [(ngModel)]="collectionName"
+      (keyup.enter)="onEnter()"
     />
   </nz-modal>
 </div>

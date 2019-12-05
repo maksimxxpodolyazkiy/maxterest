@@ -1,10 +1,5 @@
 import { Injectable } from "@angular/core";
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot
-} from "@angular/router";
+import { ActivatedRouteSnapshot, CanActivate, Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { CollectionDataService } from "src/app/services/collection-data.service";
@@ -17,8 +12,7 @@ export class CollectionGuard implements CanActivate {
   constructor(private data: CollectionDataService, private router: Router) {}
 
   public canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    route: ActivatedRouteSnapshot
   ): Observable<boolean> | boolean {
     return this.data.getSingleCollection(+route.params.id).pipe(
       map(collection => {
