@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { StoreModule } from "@ngrx/store";
 import { en_US, NgZorroAntdModule, NZ_I18N } from "ng-zorro-antd";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -15,6 +16,8 @@ import { PhotosComponent } from "./components/photos/photos.component";
 import { Global } from "./providers/global";
 import { AuthService } from "./services/auth.service";
 import { ImageService } from "./services/image.service";
+import { reducers } from "./store/reducers";
+import { metaReducers } from "./store/reducers/index";
 
 @NgModule({
   declarations: [
@@ -32,7 +35,8 @@ import { ImageService } from "./services/image.service";
     HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    StoreModule.forRoot(reducers, { metaReducers })
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },

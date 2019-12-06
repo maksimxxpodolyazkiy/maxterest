@@ -1,10 +1,10 @@
-<div *ngIf="collections.length > 0; else noCollections" class="collection">
+<div class="collection">
   <div nz-row nzType="flex" nzJustify="space-between">
     <a
       class="collection-anchor"
       nz-col
       nzSpan="5"
-      *ngFor="let collection of collections"
+      *ngFor="let collection of collections$ | async"
       routerLink="/collections/{{ collection.id }}"
     >
       {{ collection.name }}
@@ -12,11 +12,13 @@
   </div>
 </div>
 
-<ng-template #noCollections>
+<!-- *ngIf="collections.length > 0; else noCollections" -->
+
+<!-- <ng-template #noCollections>
   <div class="collection">
     <h2>You have no collections</h2>
   </div>
-</ng-template>
+</ng-template> -->
 
 <div class="add-collection">
   <button nz-button nzSize="large" nzType="default" (click)="showModalName()">

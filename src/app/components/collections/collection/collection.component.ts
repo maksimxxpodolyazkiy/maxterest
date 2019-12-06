@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
+import { Observable } from "rxjs";
 import { Collection } from "../../../interfaces/collection.interface";
 import { CollectionDataService } from "../../../services/collection-data.service";
 
@@ -8,9 +9,10 @@ import { CollectionDataService } from "../../../services/collection-data.service
   styleUrls: ["./collection.component.scss"]
 })
 export class CollectionComponent implements OnInit {
-  public collection: Collection;
+  public collection$: Observable<Collection>;
   public selectedPhotos: string[];
   public id: number;
+  public collection: Collection;
 
   public isVisible: boolean = false;
 
@@ -27,6 +29,7 @@ export class CollectionComponent implements OnInit {
       });
       this.id = +params.id;
     });
+    // this.collection$ = this.store.select(fromRoot.getCollections);
   }
 
   public showModal(): void {

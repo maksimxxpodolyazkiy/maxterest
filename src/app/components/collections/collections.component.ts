@@ -1,6 +1,9 @@
 import { Component, OnInit } from "@angular/core";
+import { Store } from "@ngrx/store";
+import { Observable } from "rxjs";
 import { Collection } from "../../interfaces/collection.interface";
-import { CollectionDataService } from "../../services/collection-data.service";
+import * as collectionsAction from "../../store/actions/collections";
+import * as fromRoot from "../../store/reducers";
 
 @Component({
   templateUrl: "./collections.component.html",
@@ -9,17 +12,17 @@ import { CollectionDataService } from "../../services/collection-data.service";
 export class CollectionsComponent implements OnInit {
   public collectionName: string = "";
 
-  public collections: Collection[] = [];
+  public collections$: Observable<Collection[]>;
+  public collection: Collection;
 
   public haveCollections: boolean = true;
   public isVisibleName: boolean = false;
 
-  constructor(private collsDataService: CollectionDataService) {}
+  constructor(private store: Store<fromRoot.State>) {}
 
   public ngOnInit(): void {
-    this.collsDataService.behSubj.subscribe(serviceCollections => {
-      this.collections = serviceCollections;
-    });
+    this.collections$ = this.store.select(fromRoot.getCollections);
+    this.store.pipe();
   }
 
   public showModalName(): void {
@@ -31,11 +34,13 @@ export class CollectionsComponent implements OnInit {
   }
 
   public handleOkName(): void {
-    this.collsDataService.addToCollection({
-      id: Math.floor(Math.random() * 100000),
-      name: this.collectionName,
-      urls: []
-    });
+    this.store.dispatch(
+      new collectionsAction.AddCollection({
+        id: Math.floor(Math.random() * 100000),
+        name: this.collectionName,
+        urls: []
+      })
+    );
     this.isVisibleName = false;
     this.collectionName = "";
   }
