@@ -11,6 +11,7 @@ import { AuthComponent } from "./components/auth/auth.component";
 import { AuthGuard } from "./components/auth/auth.guard";
 import { CallbackPage } from "./components/callback/callback.page";
 import { CollectionComponent } from "./components/collections/collection/collection.component";
+import { CollectionModule } from "./components/collections/collection/collection.module";
 import { CollectionsComponent } from "./components/collections/collections.component";
 import { PhotosComponent } from "./components/photos/photos.component";
 import { Global } from "./providers/global";
@@ -20,20 +21,13 @@ import { reducers } from "./store/reducers";
 import { metaReducers } from "./store/reducers/index";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    CollectionComponent,
-    PhotosComponent,
-    CollectionsComponent,
-    CallbackPage,
-    AuthComponent
-  ],
+  declarations: [AppComponent, CallbackPage, AuthComponent],
   imports: [
     BrowserModule,
-    NgZorroAntdModule,
     FormsModule,
+    CollectionModule,
+    NgZorroAntdModule,
     HttpClientModule,
-    ReactiveFormsModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     StoreModule.forRoot(reducers, { metaReducers })
