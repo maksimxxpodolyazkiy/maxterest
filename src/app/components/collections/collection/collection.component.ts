@@ -1,35 +1,41 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Params, Router } from "@angular/router";
-import { Observable } from "rxjs";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { ActivatedRoute, Params } from "@angular/router";
+import { Store } from "@ngrx/store";
+import { Subscription } from "rxjs";
 import { Collection } from "../../../interfaces/collection.interface";
-import { CollectionDataService } from "../../../services/collection-data.service";
+import * as collectionsAction from "../../../store/actions/collections";
+import * as fromRoot from "../../../store/reducers";
 
 @Component({
   templateUrl: "./collection.component.html",
   styleUrls: ["./collection.component.scss"]
 })
-export class CollectionComponent implements OnInit {
-  public collection$: Observable<Collection>;
+export class CollectionComponent implements OnInit, OnDestroy {
   public selectedPhotos: string[];
   public id: number;
   public collection: Collection;
+  public collection$: Subscription;
 
   public isVisible: boolean = false;
 
   constructor(
-    private collsDataService: CollectionDataService,
-    private route: ActivatedRoute,
-    private router: Router
+    private store: Store<fromRoot.State>,
+    private route: ActivatedRoute
   ) {}
 
   public ngOnInit(): void {
     this.route.params.forEach((params: Params) => {
-      this.collsDataService.getSingleCollection(+params.id).subscribe(col => {
-        this.collection = col;
-      });
+      this.collection$ = this.store
+        .select(fromRoot.getSingleCollection(+params.id))
+        .subscribe(data => {
+          this.collection = data;
+        });
       this.id = +params.id;
     });
-    // this.collection$ = this.store.select(fromRoot.getCollections);
+  }
+
+  public ngOnDestroy(): void {
+    this.collection$.unsubscribe();
   }
 
   public showModal(): void {
@@ -38,7 +44,12 @@ export class CollectionComponent implements OnInit {
 
   public handleOk(): void {
     this.isVisible = false;
-    this.collsDataService.addPhotosToCollection(this.id, this.selectedPhotos);
+    this.store.dispatch(
+      new collectionsAction.AddPhotosToCollection({
+        id: this.id,
+        urls: this.selectedPhotos
+      })
+    );
   }
 
   public handleCancel(): void {

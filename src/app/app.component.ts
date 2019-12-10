@@ -8,7 +8,7 @@ import { AuthService } from "./services/auth.service";
 })
 export class AppComponent implements OnInit {
   public isLoggedIn: boolean;
-  constructor(private auth: AuthService) {}
+
   public ngOnInit(): void {
     this.isLoggedIn = AuthService.isLoggedIn();
   }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { Collection } from "../../interfaces/collection.interface";
@@ -13,16 +14,17 @@ export class CollectionsComponent implements OnInit {
   public collectionName: string = "";
 
   public collections$: Observable<Collection[]>;
-  public collection: Collection;
 
-  public haveCollections: boolean = true;
   public isVisibleName: boolean = false;
 
-  constructor(private store: Store<fromRoot.State>) {}
+  constructor(private store: Store<fromRoot.State>, private router: Router) {}
 
   public ngOnInit(): void {
     this.collections$ = this.store.select(fromRoot.getCollections);
-    this.store.pipe();
+  }
+
+  public navigateToCollection(id: number): void {
+    this.router.navigateByUrl(`collections/${id}`);
   }
 
   public showModalName(): void {

@@ -8,10 +8,10 @@
     <app-photos (getSelectedPhotos)="getSelectedPhotos($event)"></app-photos>
   </nz-modal>
 </div>
-<!-- 
+
 <div *ngIf="collection.urls.length === 0" class="collection">
   <h2>You have no photos</h2>
-</div> -->
+</div>
 
 <div class="box-image" *ngIf="collection">
   <div class="image" *ngFor="let image of collection.urls">
