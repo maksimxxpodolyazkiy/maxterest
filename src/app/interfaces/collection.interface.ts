@@ -1,5 +1,5 @@
 export interface Collection {
   id: number;
-  name: string;
+  name?: string;
   urls: string[];
 }
