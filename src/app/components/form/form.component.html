@@ -1,0 +1,34 @@
+<form nz-form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+  <label>
+    <h2>First Name:</h2>
+    <input
+      nz-input
+      nzSize="large"
+      type="text"
+      formControlName="firstName"
+      required
+    />
+  </label>
+  <label>
+    <h2>Last Name:</h2>
+    <input
+      nz-input
+      nzSize="large"
+      type="text"
+      formControlName="lastName"
+      required
+    />
+  </label>
+  <button nz-button type="submit" [disabled]="!profileForm.valid">
+    Submit
+  </button>
+  <app-dropdown-form-control
+    formControlName="dropdown"
+    [values]="dropdownState"
+  >
+  </app-dropdown-form-control>
+  <app-selector-form-control
+    formControlName="selector"
+    [values]="selectorState"
+  ></app-selector-form-control>
+</form>

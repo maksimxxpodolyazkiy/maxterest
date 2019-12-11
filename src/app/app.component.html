@@ -2,9 +2,14 @@
   <nz-header>
     <div nz-row>
       <div nz-col nzSpan="8">
-        <a routerLink="/collections">Maxterest</a>
+        <a routerLink="/collections" class="main">Maxterest</a>
       </div>
-      <div nz-col nzSpan="8" nzOffset="8">
+      <div nz-col nzSpan="8">
+        <a routerLink="/form" class="form">
+          Form
+        </a>
+      </div>
+      <div nz-col nzSpan="8">
         <a *ngIf="isLoggedIn" (click)="auth.logout()" class="logout">
           Logout
         </a>

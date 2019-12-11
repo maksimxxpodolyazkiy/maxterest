@@ -4,6 +4,7 @@ import { AuthComponent } from "./components/auth/auth.component";
 import { AuthGuard } from "./components/auth/auth.guard";
 import { NoAuthGuard } from "./components/auth/no-auth.guard";
 import { CallbackPage } from "./components/callback/callback.page";
+import { FormComponent } from "./components/form/form.component";
 
 const routes: Route[] = [
   { path: "", redirectTo: "collections", pathMatch: "full" },
@@ -14,6 +15,7 @@ const routes: Route[] = [
   },
   { path: "auth", component: AuthComponent, canActivate: [NoAuthGuard] },
   { path: "callback", component: CallbackPage },
+  { path: "form", component: FormComponent },
   { path: "**", redirectTo: "collections" }
 ];
 @NgModule({

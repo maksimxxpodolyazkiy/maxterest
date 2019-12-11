@@ -1,0 +1,8 @@
+<h2>Value: {{ viewValue }}</h2>
+
+<a
+  class="selector-box"
+  *ngFor="let value of values"
+  (click)="onSelect($event)"
+  >{{ value }}</a
+>
