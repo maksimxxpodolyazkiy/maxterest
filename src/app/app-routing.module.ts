@@ -9,8 +9,7 @@ const routes: Route[] = [
   { path: "", redirectTo: "collections", pathMatch: "full" },
   {
     path: "collections",
-    loadChildren:
-      "./components/collections/collections.module#CollectionsModule",
+    loadChildren: "./modules/collections/collections.module#CollectionsModule",
     canActivate: [AuthGuard]
   },
   { path: "auth", component: AuthComponent, canActivate: [NoAuthGuard] },

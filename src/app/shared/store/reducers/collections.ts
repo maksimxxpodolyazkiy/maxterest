@@ -1,4 +1,4 @@
-import { Collection } from "src/app/interfaces/collection.interface";
+import { Collection } from "../../interfaces/collection.interface";
 import * as collectionsAction from "../actions/collections";
 
 export interface State {

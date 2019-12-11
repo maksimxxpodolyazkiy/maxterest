@@ -7,7 +7,7 @@ import {
   MetaReducer
 } from "@ngrx/store";
 import { storeLogger } from "ngrx-store-logger";
-import { Collection } from "src/app/interfaces/collection.interface";
+import { Collection } from "../../interfaces/collection.interface";
 import * as fromCollections from "./collections";
 
 export interface State {

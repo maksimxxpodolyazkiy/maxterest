@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
-import { Collection } from "../../interfaces/collection.interface";
-import * as collectionsAction from "../../store/actions/collections";
-import * as fromRoot from "../../store/reducers";
+import { Collection } from "../../shared/interfaces/collection.interface";
+import * as collectionsAction from "../../shared/store/actions/collections";
+import * as fromRoot from "../../shared/store/reducers";
 
 @Component({
   templateUrl: "./collections.component.html",

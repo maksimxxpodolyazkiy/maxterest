@@ -1,6 +1,6 @@
 import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { StoreModule } from "@ngrx/store";
@@ -10,15 +10,12 @@ import { AppComponent } from "./app.component";
 import { AuthComponent } from "./components/auth/auth.component";
 import { AuthGuard } from "./components/auth/auth.guard";
 import { CallbackPage } from "./components/callback/callback.page";
-import { CollectionComponent } from "./modules/collections/collection/collection.component";
-import { CollectionModule } from "./modules/collections/collection/collection.module";
-import { CollectionsComponent } from "./modules/collections/collections.component";
-import { PhotosComponent } from "./components/photos/photos.component";
-import { Global } from "./providers/global";
-import { AuthService } from "./services/auth.service";
-import { ImageService } from "./services/image.service";
-import { reducers } from "./store/reducers";
-import { metaReducers } from "./store/reducers/index";
+import { CollectionModule } from "./modules/collections/modules/collection/collection.module";
+import { Global } from "./shared/providers/global";
+import { AuthService } from "./shared/services/auth.service";
+import { ImageService } from "./shared/services/image.service";
+import { reducers } from "./shared/store/reducers";
+import { metaReducers } from "./shared/store/reducers/index";
 
 @NgModule({
   declarations: [AppComponent, CallbackPage, AuthComponent],

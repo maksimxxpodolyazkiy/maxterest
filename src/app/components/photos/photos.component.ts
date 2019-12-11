@@ -1,7 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
-import { Album } from "../../interfaces/album.interface";
-import { ImageService } from "../../services/image.service";
+import { ImageService } from "../../shared/services/image.service";
 
 @Component({
   selector: "app-photos",

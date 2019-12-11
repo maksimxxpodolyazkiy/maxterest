@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Subscription } from "rxjs";
-import { Collection } from "../../../interfaces/collection.interface";
-import * as collectionsAction from "../../../store/actions/collections";
-import * as fromRoot from "../../../store/reducers";
+import { Collection } from "../../../../shared/interfaces/collection.interface";
+import * as collectionsAction from "../../../../shared/store/actions/collections";
+import * as fromRoot from "../../../../shared/store/reducers";
 
 @Component({
   templateUrl: "./collection.component.html",

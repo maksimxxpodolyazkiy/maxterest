@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import * as fromRoot from "../../../store/reducers/index";
+import * as fromRoot from "../../../../shared/store/reducers/index";
 
 @Injectable({
   providedIn: "root"

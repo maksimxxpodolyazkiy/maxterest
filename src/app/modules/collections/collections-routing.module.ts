@@ -5,8 +5,8 @@ import { CollectionsComponent } from "./collections.component";
 const routes: Routes = [
   { path: "", component: CollectionsComponent },
   {
-    path: "details",
-    loadChildren: "./collection/collection.module#CollectionModule"
+    path: "",
+    loadChildren: "./modules/collection/collection.module#CollectionModule"
   }
 ];
 
