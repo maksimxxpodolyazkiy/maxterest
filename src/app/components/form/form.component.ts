@@ -28,12 +28,7 @@ export class FormComponent implements OnInit {
     this.profileForm.valueChanges.subscribe(value => console.log(value));
   }
 
-  public onSubmit(): void {
-    this.profileForm.patchValue({
-      dropdown: "Subscription",
-      selector: 2
-    });
-  }
+  public onSubmit(): void {}
 
   public getSelectedName(selected): void {
     this.selectedSub = selected;
