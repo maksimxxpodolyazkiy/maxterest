@@ -15,17 +15,16 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 })
 export class DropdownFormControlComponent implements ControlValueAccessor {
   @Input() public values: string;
-  @Input() public selectedSub: string;
+  public selectedSub: string = "Subscription";
   public onChange: (val: string) => void;
   public onTouched: () => void;
 
-  public writeValue(value: string): void {
-    this.selectedSub = value;
-  }
+  public writeValue(value: string): void {}
 
   public onDropdownChange(value: string): void {
     if (value && value.length) {
       this.onChange(value);
+      this.selectedSub = value;
     } else {
       return;
     }

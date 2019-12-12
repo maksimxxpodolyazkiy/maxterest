@@ -6,7 +6,7 @@ import { FormControl, FormGroup } from "@angular/forms";
   templateUrl: "form.component.html",
   styleUrls: ["./form.component.scss"]
 })
-export class FormComponent {
+export class FormComponent implements OnInit {
   public dropdownState: string[] = ["Primary", "Medium", "Premium"];
   public selectorState: number[] = [1, 2, 3, 4];
   public selectedSub: string = "Subscription";
@@ -19,8 +19,20 @@ export class FormComponent {
     selector: new FormControl("")
   });
 
+  public updateSelectorValue(newValue: number): void {
+    this.profileForm.patchValue({ selector: newValue });
+  }
+
+  public ngOnInit(): void {
+    this.updateSelectorValue(2);
+    this.profileForm.valueChanges.subscribe(value => console.log(value));
+  }
+
   public onSubmit(): void {
-    console.log(this.profileForm.patchValue);
+    this.profileForm.patchValue({
+      dropdown: "Subscription",
+      selector: 2
+    });
   }
 
   public getSelectedName(selected): void {

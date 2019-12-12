@@ -19,9 +19,6 @@
       required
     />
   </label>
-  <button nz-button type="submit" [disabled]="!profileForm.valid">
-    Submit
-  </button>
   <app-dropdown-form-control
     formControlName="dropdown"
     [values]="dropdownState"
@@ -30,5 +27,11 @@
   <app-selector-form-control
     formControlName="selector"
     [values]="selectorState"
+    (updateValue)="updateValue($event)"
   ></app-selector-form-control>
+  <br />
+  <br />
+  <button nz-button type="submit" [disabled]="!profileForm.valid">
+    Submit
+  </button>
 </form>

@@ -1,1 +1,5 @@
-<app-selector (onChanged)="writeValue($event)" [values]="values"></app-selector>
+<app-selector
+  (onChanged)="onSelectorChange($event)"
+  [selectedNumber]="selectedNumber"
+  [values]="values"
+></app-selector>

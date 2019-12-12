@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 @Component({
   selector: "app-selector",
@@ -7,11 +7,10 @@ import { Component, EventEmitter, Output, Input } from "@angular/core";
 })
 export class SelectorComponent {
   @Input() public values: number[];
-  public viewValue: number;
+  @Input() public selectedNumber: number;
   @Output() public onChanged: EventEmitter<number> = new EventEmitter<number>();
 
   public onSelect(e): void {
     this.onChanged.emit(+e.target.innerText);
-    this.viewValue = +e.target.innerText;
   }
 }

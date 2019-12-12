@@ -1,4 +1,10 @@
-import { Component, forwardRef, Input } from "@angular/core";
+import {
+  Component,
+  forwardRef,
+  Input,
+  EventEmitter,
+  Output
+} from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 @Component({
@@ -15,11 +21,18 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 })
 export class SelectorFormControlComponent implements ControlValueAccessor {
   @Input() public values: number[];
-  @Input() public selectedNumber: number;
+  public selectedNumber: number;
   public onChange: (val: number) => void;
   public onTouched: () => void;
 
+  @Output() public updateValue: EventEmitter<number> = new EventEmitter();
+
   public writeValue(value: number): void {
+    this.updateValue.emit(value);
+    this.selectedNumber = value;
+  }
+
+  public onSelectorChange(value: number): void {
     if (value && value > 0) {
       this.onChange(value);
     } else {
