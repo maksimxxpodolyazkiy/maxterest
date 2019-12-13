@@ -1,9 +1,8 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   forwardRef,
-  Input,
-  EventEmitter,
-  Output
+  Input
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
@@ -17,7 +16,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
       useExisting: forwardRef(() => SelectorFormControlComponent),
       multi: true
     }
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SelectorFormControlComponent implements ControlValueAccessor {
   @Input() public values: number[];
@@ -25,16 +25,14 @@ export class SelectorFormControlComponent implements ControlValueAccessor {
   public onChange: (val: number) => void;
   public onTouched: () => void;
 
-  @Output() public updateValue: EventEmitter<number> = new EventEmitter();
-
   public writeValue(value: number): void {
-    this.updateValue.emit(value);
     this.selectedNumber = value;
   }
 
   public onSelectorChange(value: number): void {
     if (value && value > 0) {
       this.onChange(value);
+      this.selectedNumber = value;
     } else {
       return;
     }

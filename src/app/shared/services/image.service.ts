@@ -1,23 +1,26 @@
 import { Injectable } from "@angular/core";
-import { Global } from "../providers/global";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
+import { UnsplashService } from "./unsplash.service";
 
 @Injectable({
   providedIn: "root"
 })
 export class ImageService {
-  constructor(private global: Global) {}
+  constructor(private service: UnsplashService) {}
 
-  public async searchImages(
-    userInput: string,
-    pageIndex: number = 1,
-    elementsPerPage: number = 10
-  ): Promise<any> {
-    const response = await this.global.UNSPLASH_API.search.photos(
-      userInput,
-      pageIndex,
-      elementsPerPage
-    );
-    const json = await response.json();
-    return json.results;
+  public searchImages(searchText): Observable<string[]> {
+    return this.service
+      .getPhotosFromUnsplash(searchText)
+      .pipe(map(data => data.results.map(item => item.urls.regular)));
+
+    // const response = await this.global.UNSPLASH_API.search.photos(
+    //   userInput,
+    //   pageIndex,
+    //   elementsPerPage
+    // // );
+
+    // const json = await response.json();
+    // return json.results;
   }
 }

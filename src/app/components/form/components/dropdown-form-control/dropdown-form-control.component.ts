@@ -1,4 +1,9 @@
-import { Component, forwardRef, Input } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  forwardRef,
+  Input
+} from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 @Component({
@@ -11,15 +16,18 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
       useExisting: forwardRef(() => DropdownFormControlComponent),
       multi: true
     }
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DropdownFormControlComponent implements ControlValueAccessor {
   @Input() public values: string;
-  public selectedSub: string = "Subscription";
+  public selectedSub: string;
   public onChange: (val: string) => void;
   public onTouched: () => void;
 
-  public writeValue(value: string): void {}
+  public writeValue(value: string): void {
+    this.selectedSub = value;
+  }
 
   public onDropdownChange(value: string): void {
     if (value && value.length) {

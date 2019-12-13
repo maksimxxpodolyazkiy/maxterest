@@ -1,4 +1,9 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit
+} from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Subscription } from "rxjs";
@@ -9,6 +14,7 @@ import * as fromRoot from "../../../../shared/store/reducers";
 @Component({
   templateUrl: "./collection.component.html",
   styleUrls: ["./collection.component.scss"]
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CollectionComponent implements OnInit, OnDestroy {
   public selectedPhotos: string[];

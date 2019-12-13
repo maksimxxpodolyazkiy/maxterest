@@ -19,16 +19,15 @@
       required
     />
   </label>
+  <app-selector-form-control
+    formControlName="selector"
+    [values]="selectorState"
+  ></app-selector-form-control>
   <app-dropdown-form-control
     formControlName="dropdown"
     [values]="dropdownState"
   >
   </app-dropdown-form-control>
-  <app-selector-form-control
-    formControlName="selector"
-    [values]="selectorState"
-    (updateValue)="updateValue($event)"
-  ></app-selector-form-control>
   <br />
   <br />
   <button nz-button type="submit" [disabled]="!profileForm.valid">

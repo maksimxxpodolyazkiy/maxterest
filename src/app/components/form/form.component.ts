@@ -1,16 +1,15 @@
-import { Component, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 
 @Component({
   selector: "app-form",
   templateUrl: "form.component.html",
-  styleUrls: ["./form.component.scss"]
+  styleUrls: ["./form.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FormComponent implements OnInit {
   public dropdownState: string[] = ["Primary", "Medium", "Premium"];
   public selectorState: number[] = [1, 2, 3, 4];
-  public selectedSub: string = "Subscription";
-  public selectedNumber: number = 2;
 
   public profileForm: FormGroup = new FormGroup({
     firstName: new FormControl(""),
@@ -19,18 +18,17 @@ export class FormComponent implements OnInit {
     selector: new FormControl("")
   });
 
-  public updateSelectorValue(newValue: number): void {
-    this.profileForm.patchValue({ selector: newValue });
+  public updateValue(newDropdownValue: string, newSelectorValue: number): void {
+    this.profileForm.patchValue({
+      dropdown: newDropdownValue,
+      selector: newSelectorValue
+    });
   }
 
   public ngOnInit(): void {
-    this.updateSelectorValue(2);
+    this.updateValue("Medium", 2);
     this.profileForm.valueChanges.subscribe(value => console.log(value));
   }
 
   public onSubmit(): void {}
-
-  public getSelectedName(selected): void {
-    this.selectedSub = selected;
-  }
 }

@@ -1,9 +1,16 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from "@angular/core";
 
 @Component({
   selector: "app-dropdown",
   templateUrl: "./dropdown.component.html",
-  styleUrls: ["./dropdown.component.scss"]
+  styleUrls: ["./dropdown.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DropdownComponent {
   public isOpened: boolean = false;

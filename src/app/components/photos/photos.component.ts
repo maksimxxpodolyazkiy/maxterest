@@ -1,15 +1,22 @@
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  OnInit,
+  Output
+} from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { ImageService } from "../../shared/services/image.service";
 
 @Component({
   selector: "app-photos",
   templateUrl: "./photos.component.html",
-  styleUrls: ["./photos.component.scss"]
+  styleUrls: ["./photos.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PhotosComponent implements OnInit {
-  public images: any[];
-  public albums: any[];
+  public images: any;
   public searchbarForm: FormGroup;
   public selectedPhotos: string[] = [];
   public isSelected: boolean = false;
@@ -18,7 +25,10 @@ export class PhotosComponent implements OnInit {
     string[]
   > = new EventEmitter();
 
-  constructor(private imageService: ImageService) {}
+  constructor(
+    private imageService: ImageService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   public ngOnInit(): void {
     this.searchbarForm = new FormGroup({
@@ -26,14 +36,17 @@ export class PhotosComponent implements OnInit {
     });
   }
 
-  public async onSearch(event, searchRequest: string): Promise<any> {
+  public onSearch(event, searchRequest: string): void {
     if (
       event.key === "Enter" ||
       event.type === "click" ||
       !this.isNullOrWhitespace(searchRequest)
     ) {
       this.searchbarForm.get("searchText").setValue(searchRequest);
-      this.images = await this.imageService.searchImages(searchRequest);
+      this.imageService.searchImages(searchRequest).subscribe(data => {
+        this.images = data;
+        this.cdr.markForCheck();
+      });
     }
   }
 
