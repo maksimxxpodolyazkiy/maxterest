@@ -9,7 +9,6 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 @Component({
   selector: "app-dropdown-form-control",
   templateUrl: "./dropdown-form-control.component.html",
-  styleUrls: ["./dropdown-form-control.component.scss"],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

@@ -9,7 +9,6 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 @Component({
   selector: "app-selector-form-control",
   templateUrl: "./selector-form-control.component.html",
-  styleUrls: ["./selector-form-control.component.scss"],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

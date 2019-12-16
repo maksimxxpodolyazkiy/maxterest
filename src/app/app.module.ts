@@ -16,8 +16,6 @@ import { SelectorComponent } from "./components/form/components/selector-form-co
 import { FormComponent } from "./components/form/form.component";
 import { CollectionModule } from "./modules/collections/modules/collection/collection.module";
 import { PhotosInterceptor } from "./shared/interceptors/photos-api.interceptor";
-import { AuthService } from "./shared/services/auth.service";
-import { ImageService } from "./shared/services/image.service";
 import { reducers } from "./shared/store/reducers";
 import { metaReducers } from "./shared/store/reducers/index";
 
