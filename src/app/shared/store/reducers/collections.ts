@@ -5,12 +5,14 @@ export interface State {
   collections: Collection[];
 }
 
+// Initial State
 export const initialCollectionState: State = {
   collections: localStorage.getItem("collections")
     ? JSON.parse(localStorage.getItem("collections"))
     : []
 };
 
+// Reducer
 export const reducer = (
   state = initialCollectionState,
   action: collectionsAction.Action
@@ -51,4 +53,4 @@ export const reducer = (
   }
 };
 
-export const getCollections = (state: State): Collection[] => state.collections;
+export const getCollections = (state: State): Collection[] => state.collections; // Selectors

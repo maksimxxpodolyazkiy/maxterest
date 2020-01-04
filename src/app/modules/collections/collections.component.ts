@@ -43,7 +43,7 @@ export class CollectionsComponent implements OnInit {
 
   public handleOkName(): void {
     this.store.dispatch(
-      new collectionsAction.AddCollection({
+      collectionsAction.AddCollection({
         id: Math.floor(Math.random() * 100000),
         name: this.collectionName,
         urls: []

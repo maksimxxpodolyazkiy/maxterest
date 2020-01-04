@@ -15,6 +15,7 @@ export interface State {
 }
 
 export const logger = (reducer: ActionReducer<State>): any => {
+  // Middleware functions
   return storeLogger()(reducer);
 };
 
@@ -34,10 +35,11 @@ export function storage(reducer: ActionReducer<State>): ActionReducer<State> {
 }
 
 export const reducers: ActionReducerMap<State> = {
+  // Combined Reducers
   collections: fromCollections.reducer
 };
 
-export const metaReducers: Array<MetaReducer<State>> = [logger, storage];
+export const metaReducers: Array<MetaReducer<State>> = [logger, storage]; // Metareducers
 
 export const getCollectionsState = createFeatureSelector<fromCollections.State>(
   "collections"
