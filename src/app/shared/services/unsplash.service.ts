@@ -11,7 +11,7 @@ export class UnsplashService {
 
   public getPhotosFromUnsplash(searchText): Observable<UnsplashApiResponse> {
     return this.http.get<UnsplashApiResponse>(
-      `https://api.unsplash.com/search/photos?query=${searchText}&per_page=12&page=1`
+      `https://api.unsplash.com/search/photos?query=${searchText}&per_page=12&page=2`
     );
   }
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
@@ -43,7 +43,7 @@ export class CollectionsComponent implements OnInit {
 
   public handleOkName(): void {
     this.store.dispatch(
-      collectionsAction.AddCollection({
+      new collectionsAction.AddCollection({
         id: Math.floor(Math.random() * 100000),
         name: this.collectionName,
         urls: []

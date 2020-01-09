@@ -4,13 +4,16 @@ import { FormsModule } from "@angular/forms";
 import { NgZorroAntdModule } from "ng-zorro-antd";
 import { CollectionsRoutingModule } from "./collections-routing.module";
 import { CollectionsComponent } from "./collections.component";
+import { CollectionsPipe } from "./collections.pipe";
+import { CollectionModule } from "./modules/collection/collection.module";
 
 @NgModule({
   imports: [
     CommonModule,
     NgZorroAntdModule,
     FormsModule,
-    CollectionsRoutingModule
+    CollectionsRoutingModule,
+    CollectionModule
   ],
   declarations: [CollectionsComponent]
 })

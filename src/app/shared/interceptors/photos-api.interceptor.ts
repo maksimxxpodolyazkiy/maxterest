@@ -20,6 +20,6 @@ export class PhotosInterceptor implements HttpInterceptor {
       });
       return next.handle(authReq);
     }
-    return;
+    return next.handle(req);
   }
 }
