@@ -23,7 +23,7 @@
     "@ngrx/router-store": "^8.5.2",
     "@ngrx/store": "^8.5.2",
     "angular": "^1.7.9",
-    "auth0-js": "^9.11.3",
+    "auth0-js": "^9.13.2",
     "git": "^0.1.5",
     "ng-zorro-antd": "^8.5.1",
     "ngrx": "0.0.1-security",
